@@ -13,9 +13,11 @@ public:
 	void draw();
 	void move();
 	double getx();
+	SDL_Rect get_rect();
 private:
 	int w, h, x, y, r, g, b, a;
 
+	SDL_Rect rect;
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 	SDL_Texture* Message;
@@ -34,7 +36,8 @@ public:
 	int gen_addandsubscore(int ammo, int flag);
 	double gen_addandmulscore(int ammo, int flag);
 	int gen_subanddivscore(int ammo, int flag);
-};	
+	SDL_Rect get_rect();
+};
 
 
 Rect::Rect(SDL_Window* window,	SDL_Renderer *renderer, int w, int h, int x, int y, int r, int g, int b, int a, SDL_Texture* Message)
@@ -54,7 +57,7 @@ Rect::Rect(SDL_Window* window,	SDL_Renderer *renderer, int w, int h, int x, int 
 
 void Rect::draw()
 {
-	SDL_Rect rect;
+	
 
 	rect.w = w;
 	rect.h = h;
@@ -189,9 +192,14 @@ int Math::gen_subanddivscore(int ammo, int flag)
 	}
 }
 
+SDL_Rect Rect::get_rect()
+{
+	return rect;
+}
+
 void spawnRects(SDL_Window *window, SDL_Renderer *renderer )
 {
-	TTF_Font* Sans = TTF_OpenFont("Font.ttf", 24);
+	TTF_Font* Sans = TTF_OpenFont("Sans.ttf", 24);
 
 	Math* math = new Math();
 
@@ -235,9 +243,10 @@ void spawnRects(SDL_Window *window, SDL_Renderer *renderer )
 	{
 		int score_addandmul1 = (int)math->gen_addandmulscore(ammo, 0);
 		double score_addandmul2 = math->gen_addandmulscore(ammo, 1);
-
-		double temp = (int)(score_addandmul2 * 100 + 0.5);
-		score_addandmul2 /= 100;
+		cout << score_addandmul2 << endl;
+		
+		double temp = (int)((score_addandmul2 * 100) + 0.5);
+		score_addandmul2 = temp/ 100;
 		cout << score_addandmul2 << endl;
 		s1 = "+" + to_string(score_addandmul1);
 		s2 = "*" + to_string(score_addandmul2);
